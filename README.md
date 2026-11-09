@@ -6,6 +6,7 @@
 | Maria Clara Farias Coelho | @mariaclarafarias1806-web| Engenharia de Dados | 47968427 |
 | Miguel Marcos da Silva Gonçalves | @GitHub do Miguel | Engenharia de Dados | 47963549 |
 | Gabriella Basilio Rocha dos Santos | @shiniixx | Cibersegurança | 477778041 |
+| Vitória de Paula Melo | @vitoriapmelo2012 | Ciência de Dados | 47777737 |
 
 **Dossiê:** 2. Crime organizado no ambiente digital: aliciamento online e contas laranja.
 
@@ -148,7 +149,7 @@ Identificadores diretos (nome, CPF, localização) ficam fora do pipeline de mod
 
 ### 2.3 O trabalho de cada área
 
-Os quatro integrantes são de duas áreas: três de Engenharia de Dados e uma de Cibersegurança. O trabalho se divide em quatro frentes.
+Os cinco integrantes são de três áreas: três de Engenharia de Dados, uma de Cibersegurança e uma de Ciência de Dados. O trabalho se divide em cinco frentes.
 
 #### Engenharia de Dados
 - **Ingestão e streaming:** projetar e manter os pipelines que levam cada evento transacional (Kafka e Flink) até a Feature Store, com baixa latência e sem perda de eventos, de modo que a pontuação de risco chegue ao analista em minutos.
@@ -161,11 +162,17 @@ Os quatro integrantes são de duas áreas: três de Engenharia de Dados e uma de
 **Chaves e auditoria:** gestão e rotação de chaves, trilha de auditoria protegida contra alteração e alertas para consultas fora do padrão.
 **Resposta a incidentes:** plano para vazamento de dados de menores, com comunicação à ANPD e aos titulares.
 
+#### Ciência de Dados
+Modelagem: construir o modelo de risco (árvores de decisão ou gradient boosting, com foco em dados desbalanceados), treinar, calibrar e escolher o limite de alerta com base no custo do erro, em especial o do falso positivo.
+Features e consistência: criar as variáveis de comportamento da conta sobre a Feature Store, garantindo que treino e produção usem a mesma definição.
+Explicabilidade e equidade: gerar os motivos de cada alerta (SHAP) para o analista e o jovem, e medir o desempenho do modelo por grupo.
+Monitoramento: acompanhar drift de dados e de desempenho, versionar o modelo e documentá-lo em ficha técnica (model card).
+
 #### Áreas que a solução também exige e que o grupo não cobre
-A solução de produção também depende de **Ciência de Dados** (treinar, calibrar e validar o modelo), e **Cloud** (infraestrutura, custo e região de menor impacto ambiental). O grupo desenha os pontos de contato com essas áreas (a Feature Store como entrega ao modelo, o log de auditoria para a segurança) e propõe o piloto com um banco parceiro que já tenha essas equipes.
+A solução de produção também depende de **Cloud** (infraestrutura, custo e região de menor impacto ambiental). O grupo desenha os pontos de contato com essas áreas (a Feature Store como entrega ao modelo, o log de auditoria para a segurança) e propõe o piloto com um banco parceiro que já tenha essas equipes.
 
 #### Como as áreas se complementam
-A ingestão entrega dados rápidos, mas só pode usá-los depois do mascaramento definido pela governança. O painel do analista depende dos dois: precisa de dados atuais (ingestão) e de dados protegidos e explicáveis (governança). A contestação gera rótulos que realimentam o modelo e a auditoria de viés, fechando o ciclo. Ciência de Dados consome a Feature Store e devolve a pontuação, e a Cibersegurança define o acesso, as chaves e a auditoria do conjunto
+A ingestão entrega dados rápidos, mas só pode usá-los depois do mascaramento definido pela governança. O painel do analista depende dos dois: precisa de dados atuais (ingestão) e de dados protegidos e explicáveis (governança). A contestação gera rótulos que realimentam o modelo e a auditoria de viés, fechando o ciclo. A Ciência de Dados consome a Feature Store, devolve a pontuação com os motivos e depende dos rótulos da contestação para recalibrar. A Cibersegurança define o acesso, as chaves e a auditoria do conjunto, inclusive a proteção do próprio modelo.
 
 ### 2.4 O que a tecnologia não resolve
 
@@ -205,7 +212,7 @@ A solução reduz um dano real (jovens usados em crimes e prejuízos ao sistema 
 |---|---|---|---|
 | Transparência | Aviso em linguagem simples com motivo da restrição e como contestar; política pública descrevendo o uso do modelo | Time de produto com o DPO | Teste de leitura com jovens (compreensão ≥ 80%); política publicada |
 | Revisão humana | Nenhuma restrição sem decisão de analista; treinamento e amostragem de decisões | Operações de fraude | Log mostra 100% das restrições com analista identificado; auditoria mensal |
-| Minimização de dados | Só variáveis de comportamento da conta; identificadores diretos fora do pipeline; retenção curta | Governança de dados (Maria Clara) | Inventário de variáveis aprovado pelo DPO; revisão de retenção automatizada |
+| Minimização de dados | Só variáveis de comportamento da conta; identificadores diretos fora do pipeline; retenção curta | Governança de dados (Maria Clara e Vitória) | Inventário de variáveis aprovado pelo DPO; revisão de retenção automatizada |
 | Segurança | Criptografia, controle de acesso por perfil, log de acessos, teste de invasão | Segurança da informação do banco (Gabriella) | Relatório de pentest sem falhas críticas abertas |
 | Teste de viés | Comparar taxas de alerta e de falso positivo por faixa de renda, região, idade e tipo de ocupação | Governança de dados e ciência de dados | Relatório de equidade com disparidade abaixo do limite acordado, assinado antes do go-live |
 | Canal de contestação | Contestação por app, web, telefone e atendimento assistido; resposta em até 24 h | Operações e produto | Painel de SLA com ≥ 95% das contestações respondidas no prazo |
@@ -356,19 +363,26 @@ Validação planejada: auditoria com leitor de tela (NVDA e TalkBack) e teste de
 2. **Longo prazo (12 meses):** concluir um curso de arquitetura orientada a eventos e streaming (mínimo de 20 horas, com certificado) e publicar no repositório a especificação técnica de uma Feature Store (Feast e Redis) com ao menos 10 variáveis do projeto, até **31/10/2027**.
 
 **Feedback dos colegas**
-*Escrito em conjunto por Maria Clara, Miguel e Gabriella.*
+*Escrito em conjunto por Maria Clara, Miguel, Gabriella e Vitória.*
 
-**Sobre o papel:** o Kayk é a base técnica do projeto. Sem o pipeline de ingestão e a Feature Store que ele desenhou, nem a governança de dados nem o painel do analista teriam o que consumir. Ele transformou o requisito "detectar em minutos" em uma arquitetura concreta (Kafka, Flink, Feature Store), e foi isso que deu coerência técnica à proposta de detecção em tempo real. Como todo dado transacional passa pelo pipeline dele, é também o ponto da arquitetura que mais precisa de proteção.
+**Sobre o papel:** Sobre o papel: o Kayk é a base técnica do projeto. Sem o pipeline de ingestão e a Feature Store que ele desenhou, nem a governança de dados nem o painel do analista nem o modelo de risco teriam o que consumir. Ele transformou o requisito “detectar em minutos” em uma arquitetura concreta (Kafka, Flink, Feature Store), e foi isso que deu coerência técnica à proposta de detecção em tempo real. Para a ciência de dados, a Feature Store dele é o ponto de contato mais importante: é ela que garante que o modelo veja em produção as mesmas variáveis com que foi treinado. Como todo dado transacional passa pelo pipeline dele, é também o ponto da arquitetura que mais precisa de proteção.
 
-**Sobre o plano:** as metas são mensuráveis e conversam com o projeto (1.000 eventos por segundo com latência p95 abaixo de 100 ms; especificação da Feature Store com 10 variáveis). A competência que mais precisa de atenção é a Feature Store, hoje marcada como "Não", e ela é a que mais pesa nas entregas dos outros três.
+Sobre o plano: as metas são mensuráveis e conversam com o projeto (1.000 eventos por segundo com latência p95 abaixo de 100 ms; especificação da Feature Store com 10 variáveis). A competência que mais precisa de atenção é a Feature Store, hoje marcada como “Não”, e ela é a que mais pesa nas entregas dos outros quatro.
 
-**Sugestões:**
+Sugestões:
 
-1. Definir logo um contrato de dados (esquema dos eventos e das variáveis) com a Maria Clara, para que o mascaramento aconteça antes da Feature Store e ela só receba dados já protegidos.
-2. Combinar com o Miguel quais métricas de latência do pipeline entram no painel de SLA, para que a meta de 100 ms seja acompanhada de verdade e não só testada uma vez.
-3. Prever um plano B caso o Flink demore a ser dominado (por exemplo, começar com Kafka Streams) e registrar a decisão no repositório.
-4. Fazer uma sessão curta de repasse da configuração dos contêineres e dos scripts de ingestão, para que todos consigam subir o ambiente de testes e explicar o fluxo na arguição.
-5. Alinhar com a Gabriella a segurança do Kafka e da Feature Store (criptografia em trânsito, controle de acesso por tópico e por perfil), para que o ambiente de testes já nasça com esses controles em vez de recebê-los depois.
+Definir logo um contrato de dados (esquema dos eventos e das variáveis) com a Maria Clara, para que o mascaramento aconteça antes da Feature Store e ela só receba dados já protegidos.
+
+Alinhar com a Vitória as 10 variáveis: a especificação da Feature Store (Kayk) e as 10 features do modelo baseline (Vitória) devem ser as mesmas, com nome, tipo, janela de tempo e fórmula documentados.
+
+Garantir que as variáveis sejam calculadas só com dados disponíveis até o momento do evento (consistência temporal). Se a janela de treino enxergar dados do futuro, o modelo parecerá melhor no laboratório do que será em produção.
+
+Incluir o tempo de pontuação do modelo no orçamento de latência. A meta de 100 ms vale para a ingestão, mas o analista precisa receber o alerta em minutos de ponta a ponta.
+
+Combinar com o Miguel quais métricas de latência do pipeline entram no painel de SLA, para que a meta seja acompanhada de verdade e não só testada uma vez.
+Prever um plano B caso o Flink demore a ser dominado (por exemplo, começar com Kafka Streams) e registrar a decisão no repositório.
+
+Alinhar com a Gabriella a segurança do Kafka e da Feature Store (criptografia em trânsito, controle de acesso por tópico e por perfil), para que o ambiente de testes já nasça com esses controles.
 
 ### 8.2 Maria Clara Farias Coelho — Engenharia de Dados
 
@@ -389,18 +403,29 @@ Validação planejada: auditoria com leitor de tela (NVDA e TalkBack) e teste de
 2. **Longo prazo (12 meses):** concluir um curso de proteção de dados e privacidade (mínimo de 20 horas, com certificado) e entregar o RIPD completo da arquitetura de streaming, junto com um relatório de auditoria de viés com ao menos 3 métricas de equidade, até **31/10/2027**.
 
 **Feedback dos colegas**
-*Escrito em conjunto por Kayk, Miguel e Gabriella.*
+*Escrito em conjunto por Kayk, Miguel, Gabriella e Vitória.*
 
-**Sobre o papel:** a Maria Clara garantiu que a proposta fosse tecnicamente viável e também responsável. Foi ela quem trouxe para o centro do projeto os pontos mais sensíveis: dados de menores de 18 anos, o risco de punir jovens de baixa renda e a revisão humana. Sem esse trabalho, a solução poderia detectar bem e ainda assim ser injusta. O trabalho dela também é a base da frente de segurança, porque a pseudonimização define quais dados chegam a cada componente e, portanto, o que precisa ser protegido em cada um.
+Sobre o papel: a Maria Clara garantiu que a proposta fosse tecnicamente viável e também responsável. Foi ela quem trouxe para o centro do projeto os pontos mais sensíveis: dados de menores de 18 anos, o risco de punir jovens de baixa renda e a revisão humana. Sem esse trabalho, a solução poderia detectar bem e ainda assim ser injusta. O trabalho dela também define quais dados chegam ao modelo e a cada componente, e por isso é a base tanto da frente de segurança quanto da frente de modelagem.
 
-**Sobre o plano:** a meta de mascaramento com Presidio em um tópico Kafka, com taxa mínima de detecção, é concreta e útil para o grupo. A meta de longo prazo (RIPD completo e relatório de viés com três métricas) é ambiciosa e muito relevante para o projeto. O ponto mais frágil do plano é a auditoria de viés, hoje marcada como "Não", e ela sustenta o indicador de equidade (razão de falso positivo ≤ 1,25).
+Sobre o plano: a meta de mascaramento com Presidio em um tópico Kafka, com taxa mínima de detecção, é concreta e útil para o grupo. A meta de longo prazo (RIPD completo e relatório de viés com três métricas) é ambiciosa e muito relevante. O ponto mais frágil do plano é a auditoria de viés, hoje marcada como “Não”, e ela sustenta o indicador de equidade (razão de falso positivo ≤ 1,25). Aqui há um ponto de atenção compartilhado com a ciência de dados: a Vitória também fará análise de viés do modelo, e as duas frentes precisam ser complementares, não duplicadas.
 
-**Sugestões:**
+Sugestões:
 
-1. Escolher cedo as três métricas de equidade (por exemplo, taxa de falso positivo por grupo, taxa de alerta por grupo e paridade de oportunidades) e escrevê-las no repositório, para que o Miguel as inclua no painel e o Kayk calcule as variáveis necessárias.
-2. Aprofundar a parte prática de criptografia nos pipelines (chaves, rotação, criptografia em repouso do banco de auditoria), que hoje está só como "Parcial". Combinar com a Gabriella onde termina a pseudonimização e onde começa a gestão de chaves, para que as duas frentes não se sobreponham nem deixem lacunas.
-3. Detalhar com o Miguel e a Gabriella como será a reidentificação na tela do analista, com registro de acesso e perfis por função, para fechar a lacuna entre dados pseudonimizados e decisão humana.
-4. Incluir no plano uma revisão jurídica do RIPD (com o DPO do banco parceiro), já que as bases legais são a parte que mais gera perguntas.
+Escolher cedo as três métricas de equidade (por exemplo, taxa de falso positivo por grupo, taxa de alerta por grupo e paridade de oportunidades) e escrevê-las no repositório, para que a Vitória as calcule sobre o modelo, o Miguel as inclua no painel e o Kayk produza as variáveis necessárias.
+
+Combinar com a Vitória a divisão de papéis: a Vitória calcula as métricas durante o desenvolvimento do modelo, e a Maria Clara audita de forma independente antes do go-live, para que o modelo não avalie a si mesmo.
+
+Verificar com a Vitória se variáveis que parecem neutras funcionam como substitutas de CEP, renda ou região, já que essas variáveis foram proibidas. Retirar a coluna proibida não basta se outra a reconstitui.
+
+Definir como os grupos de análise (faixa de renda, região, idade, ocupação) serão obtidos, já que os identificadores diretos ficam fora do pipeline. Sem essa definição, o teste de equidade não consegue rodar.
+
+Incluir no RIPD a descrição do modelo e das explicações por decisão (SHAP), usando a ficha técnica da Vitória como insumo. Isso sustenta o direito de revisão do art. 20 da LGPD.
+
+Aprofundar a parte prática de criptografia nos pipelines (chaves, rotação, criptografia em repouso do banco de auditoria), hoje só “Parcial”, e combinar com a Gabriella onde termina a pseudonimização e onde começa a gestão de chaves.
+
+Detalhar com o Miguel e a Gabriella como será a reidentificação na tela do analista, com registro de acesso e perfis por função.
+
+Incluir no plano uma revisão jurídica do RIPD (com o DPO do banco parceiro), já que as bases legais são a parte que mais gera perguntas.
 
 ### 8.3 Miguel Marcos da Silva Gonçalves — Engenharia de Dados
 
@@ -421,19 +446,26 @@ Validação planejada: auditoria com leitor de tela (NVDA e TalkBack) e teste de
 2. **Longo prazo (12 meses):** concluir um curso de Prometheus e Grafana (mínimo de 15 horas) e montar um painel com 3 métricas de SLA (tempo de revisão do alerta, tempo de resposta à contestação e fila de alertas pendentes), com alertas automáticos quando o prazo for ultrapassado, até **31/10/2027**.
 
 **Feedback dos colegas**
-*Escrito em conjunto por Kayk, Maria Clara e Gabriella.*
+*Escrito em conjunto por Kayk, Maria Clara, Gabriella e Vitória.*
 
-**Sobre o papel:** o Miguel conecta a infraestrutura de dados às pessoas: o painel do analista e o fluxo de contestação são o que torna concreta a promessa do projeto de revisão humana e resposta em até 24 horas. Ele também ficou com a parte de integração, que costuma ser a mais subestimada e a que mais quebra em produção. É no trabalho dele que a segurança do projeto se torna visível, porque os endpoints, o painel e a trilha de auditoria são o ponto onde analistas e jovens acessam dados pessoais.
+Sobre o papel: o Miguel conecta a infraestrutura de dados às pessoas: o painel do analista e o fluxo de contestação são o que torna concreta a promessa do projeto de revisão humana e resposta em até 24 horas. É também no painel dele que o trabalho da ciência de dados vira algo útil: a pontuação e os motivos do alerta só têm valor se o analista conseguir lê-los e agir. Ele ficou ainda com a parte de integração, que costuma ser a mais subestimada e a que mais quebra em produção. É no trabalho dele que a segurança do projeto se torna visível, porque os endpoints, o painel e a trilha de auditoria são o ponto onde analistas e jovens acessam dados pessoais.
 
-**Sobre o plano:** as metas (quatro endpoints documentados com 80% de cobertura de testes e um painel de SLA com três métricas) são claras e verificáveis. A competência de observabilidade (Prometheus), hoje "Não", é importante, porque é ela que vai provar que os prazos prometidos aos jovens estão sendo cumpridos. Os quatro endpoints também são a base da meta de 12 meses da Gabriella, que vai testá-los contra o OWASP API Security Top 10, então a documentação precisa estar completa e estável.
+Sobre o plano: as metas (quatro endpoints documentados com 80% de cobertura de testes e um painel de SLA com três métricas) são claras e verificáveis. A competência de observabilidade (Prometheus), hoje “Não”, é importante, porque é ela que vai provar que os prazos prometidos aos jovens estão sendo cumpridos. Os quatro endpoints também são a base da meta de 12 meses da Gabriella, que vai testá-los contra o OWASP API Security Top 10, então a documentação precisa estar completa e estável.
 
-**Sugestões:**
+Sugestões:
 
-1. Garantir que o portal de contestação e o painel sigam os requisitos de acessibilidade da seção 4 (teclado, contraste, leitor de tela), tratando isso como critério de aceite das entregas, e não como etapa posterior.
-2. Usar as métricas de latência do pipeline (Kayk) e as de equidade (Maria Clara) no mesmo painel, para o analista ver decisão, prazo e possível viés em um só lugar.
-3. Definir com antecedência o comportamento do fluxo quando o pipeline atrasar ou a API do banco falhar (por exemplo, nenhuma restrição é aplicada sem revisão), para que falhas técnicas não virem punição para o jovem.
-4. Documentar os endpoints e a trilha de auditoria de forma que qualquer integrante consiga demonstrá-los na arguição.
-5. Alinhar com a Gabriella a autenticação por perfil nos quatro endpoints (analista, DPO, auditor e administrador técnico) e o formato do log de acesso, para que o painel de SLA e a auditoria usem a mesma trilha.
+Definir com a Vitória o formato do retorno do endpoint de consulta de alerta: pontuação, versão do modelo e os principais motivos (SHAP) em linguagem que o analista entenda. A tela do analista depende desse contrato.
+
+Fazer o endpoint de atualização de status registrar o desfecho de cada caso (confirmado ou falso positivo) em formato estruturado. Esse desfecho é o rótulo que a Vitória usa para recalibrar o modelo, e sem ele o ciclo de aprendizado não fecha.
+
+Incluir no painel, além dos SLAs, as métricas de monitoramento do modelo: drift dos dados, precisão dos alertas revisados e taxa de concordância do analista com o modelo, que é o controle contra o viés de automação.
+
+Usar as métricas de latência do pipeline (Kayk) e as de equidade (Maria Clara) no mesmo painel, para o analista ver decisão, prazo e possível viés em um só lugar.
+Garantir que o portal de contestação e o painel sigam os requisitos de acessibilidade da seção 4, tratando isso como critério de aceite das entregas.
+
+Definir com antecedência o comportamento do fluxo quando o pipeline atrasar, o modelo ficar indisponível ou a API do banco falhar (por exemplo, nenhuma restrição é aplicada sem revisão), para que falhas técnicas não virem punição para o jovem.
+
+Alinhar com a Gabriella a autenticação por perfil nos quatro endpoints e o formato do log de acesso, para que o painel de SLA e a auditoria usem a mesma trilha.
 
 ### 8.4 Gabriella Basilio Rocha dos Santos — Cibersegurança
 
@@ -453,7 +485,74 @@ Papel no projeto: responsável pela modelagem de ameaças, pelo desenho de ident
 Metas SMART (6 a 12 meses)
 
 Curto prazo (6 meses): elaborar e publicar no repositório a modelagem de ameaças (STRIDE) do sistema, com pelo menos 10 ameaças mapeadas aos componentes da arquitetura (Kafka, Feature Store, banco de auditoria, painel do analista e portal de contestação), cada uma com um controle associado, e uma matriz de acesso com 4 perfis (analista, DPO, auditor e administrador técnico), até 30/04/2027.
+
 Longo prazo (12 meses): concluir um curso de segurança de aplicações e APIs (mínimo de 20 horas, com certificado) e entregar um relatório de teste, em ambiente de laboratório, dos 4 endpoints do fluxo de contestação contra o OWASP API Security Top 10, com autenticação por perfil e registro de todo acesso, até 31/10/2027.
+
+**Feedback dos colegas**
+*Escrito em conjunto por Kayk, Maria Clara, Miguel e Vitória.*
+
+Sobre o papel: a Gabriella protege o que os outros constroem. Modelagem de ameaças, perfis de acesso, chaves e trilha de auditoria são o que permite dizer que os dados de jovens, inclusive menores de 18 anos, estão seguros do começo ao fim. O trabalho dela também cobre um risco específico deste projeto: criminosos que tentam burlar o modelo, por exemplo fracionando Pix para ficar abaixo do limite, ou anexando documentos falsos na contestação. Sem essa frente, a solução poderia ser precisa no laboratório e frágil diante de quem tem interesse em enganá-la.
+
+Sobre o plano: a meta de curto prazo (modelagem STRIDE com pelo menos 10 ameaças mapeadas aos componentes e matriz de acesso com 4 perfis) é concreta e verificável. A de longo prazo (relatório de teste dos 4 endpoints contra o OWASP API Security Top 10) depende da estabilidade da API do Miguel. Todas as competências estão marcadas como “Iniciante”, então a prioridade deve ser clara: modelagem de ameaças e controle de acesso primeiro, porque as demais frentes dependem delas.
+
+Sugestões:
+
+Incluir o próprio modelo de risco como componente da modelagem STRIDE, com ameaças como evasão (fracionamento para ficar abaixo do limite), envenenamento de rótulos pela contestação (casos fabricados para “ensinar” o modelo errado) e adulteração do modelo ou da Feature Store. Combinar com a Vitória quais controles cabem a cada uma.
+
+Avaliar com a Vitória o risco de o texto das explicações mostrar a criminosos como evitar o alerta. Os motivos devem ser claros para o jovem, mas sem revelar limites e regras exatas.
+
+Definir permissões sobre o artefato do modelo e a ficha técnica (quem pode publicar nova versão, quem pode apenas consultar), com registro de cada mudança.
+Garantir que a trilha de auditoria registre a versão do modelo, a pontuação e os motivos de cada alerta, para que qualquer decisão possa ser reconstituída depois. Combinar o formato com a Vitória e o Miguel.
+
+Alinhar com o Kayk a segurança do Kafka e da Feature Store (criptografia em trânsito, controle de acesso por tópico e por perfil) desde o ambiente de testes.
+Combinar com a Maria Clara onde termina a pseudonimização e onde começa a gestão de chaves, e com o Miguel a autenticação por perfil nos quatro endpoints.
+
+Incluir no plano de resposta a incidentes o cenário de falha do modelo, como drift abrupto ou modelo gerando alertas em massa, com o procedimento de desligar as restrições e manter só o monitoramento.
+
+### 8.5 Vitória Paula de Melo — Ciência de Dados
+
+Papel no projeto: responsável pela modelagem, validação e monitoramento do modelo de detecção, pela engenharia de features sobre a Feature Store, pela avaliação de vieses e equidade, pela explicabilidade das decisões exibidas na tela do analista e pela documentação do modelo (ficha técnica e métricas). A validação independente do modelo fica com a equipe de risco do banco parceiro.
+
+**Plano de desenvolvimento**
+
+|Competência que a solução exige | Técnica ou comportamental | Já tenho?
+|---|---|---|
+|Modelagem preditiva para dados desbalanceados (detecção de fraude) | Técnica | Iniciante
+Engenharia de features e uso de Feature Store (consistência treino/produção) |Técnica | Iniciante
+Avaliação de modelos (precisão, recall, curva PR, custo de erro) e calibração |	Técnica | Iniciante
+Explicabilidade e justiça algorítmica (SHAP, análise de viés entre grupos) | Técnica | Iniciante
+Monitoramento de modelos em produção (drift de dados e de desempenho) e MLOps |	Técnica | Iniciante
+Alinhar métricas e decisões do modelo com as demais frentes do projeto | Comportamental | Iniciante
+
+Metas SMART (6 a 12 meses)
+
+Curto prazo (6 meses): desenvolver e publicar no repositório um modelo de referência (baseline) para detecção de fraude, com pelo menos 10 features construídas e registradas na Feature Store, relatório de avaliação com ao menos 4 métricas (precisão, recall, F1 e AUC-PR) e uma ficha técnica do modelo (model card) com limitações e premissas, até 30/04/2027.
+
+Longo prazo (12 meses): concluir um curso de ciência de dados aplicada, com foco em MLOps e explicabilidade (mínimo de 20 horas, com certificado), e entregar um relatório, em ambiente de laboratório, de análise de viés e explicabilidade do modelo nos 4 segmentos de decisão do fluxo de contestação, com explicações por decisão (SHAP) disponíveis ao analista e monitoramento de drift ativo, até 31/10/2027.
+
+**Feedback dos colegas**
+*Escrito em conjunto por Kayk, Maria Clara, Gabriella e Miguel.*
+
+Sobre o papel: a Vitória responde pela parte do projeto que decide quem recebe um alerta e por quê. O modelo, as features e as explicações são o que o analista vê na tela e o que o jovem lê no aviso, e por isso o trabalho dela é onde a promessa de uma solução justa e explicável se cumpre ou não. Ela também liga as demais frentes: consome a Feature Store do Kayk, depende das regras de equidade da Maria Clara, entrega os motivos que o painel do Miguel exibe e define o que a Gabriella precisa proteger no modelo.
+
+Sobre o plano: as metas são claras e verificáveis (baseline com 10 features, quatro métricas, ficha técnica, análise de viés, explicações por decisão e monitoramento de drift). O risco é o volume: as seis competências estão como “Iniciante” e a meta de 12 meses reúne MLOps, explicabilidade, viés e drift em um único relatório. Como não haverá dados reais de contas laranja, também será preciso explicar com clareza que os resultados vêm de dados sintéticos e não de desempenho em produção.
+
+Sugestões:
+
+Priorizar dentro do plano: baseline e avaliação primeiro, explicabilidade depois, drift por último. Se o tempo apertar, cortar a ordem inversa e registrar a decisão no repositório.
+
+Começar por um modelo simples (regressão logística ou gradient boosting raso) como baseline, coerente com a decisão do projeto por modelo explicável, e só complicar se o ganho for relevante.
+
+Esclarecer o que são os “4 segmentos de decisão” da meta de longo prazo. Se a ideia for ter um recorte paralelo aos 4 endpoints, usar os mesmos nomes para facilitar a leitura.
+
+Ligar as metas aos indicadores da seção 6 (precisão ≥ 40% e razão de falso positivo ≤ 1,25), explicando como cada métrica do relatório contribui para eles.
+Documentar como os dados sintéticos serão gerados (premissas, proporção de contas laranja, perfis de jovens legítimos como freelancers e entregadores) e declarar o limite: o desempenho no laboratório não prova desempenho real.
+
+Definir com o Kayk as 10 features compartilhadas e com a Maria Clara a divisão de papéis na auditoria de viés (cálculo pela Vitória, auditoria independente pela Maria Clara).
+
+Combinar com o Miguel o formato do retorno dos motivos (SHAP) e do registro do desfecho de cada caso, e com a Gabriella os controles sobre o modelo (versionamento, acesso e proteção contra evasão e envenenamento).
+
+Prever um plano de contingência para o drift: qual limite aciona o retreino e qual aciona a suspensão das restrições, em linha com a seção 6.3.
 
 ## 9. Referências
 
@@ -469,6 +568,7 @@ Fontes publicadas a partir de novembro de 2024 (dados e notícias) e legislaçã
 - BRASIL. *Lei nº 15.211, de 17 de setembro de 2025 (ECA Digital)*. Versão vigente.
 - BRASIL. *Lei nº 13.709, de 14 de agosto de 2018 (Lei Geral de Proteção de Dados Pessoais)*. Versão vigente. https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm
 - W3C. *Web Content Accessibility Guidelines (WCAG) 2.2*. Versão vigente. https://www.w3.org/TR/WCAG22/
+
 
 
 
