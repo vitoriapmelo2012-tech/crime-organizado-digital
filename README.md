@@ -1,6 +1,6 @@
 # Detecção precoce de contas laranja entre jovens, com revisão humana, contestação rápida e prevenção
 
-## intrigantes 
+## intrigantes
 |---|---|---|---|
 | Kayk Alberto Santana Ferreira | @Kayksantanaf | Engenharia de Dados | 47792426 |
 | Maria Clara Farias Coelho | @mariaclarafarias1806-web| Engenharia de Dados | 47968427 |
