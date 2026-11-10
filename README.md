@@ -1,4 +1,4 @@
-# Detecção precoce de contas laranja entre jovens, com revisão humana, contestação rápida e prevenção
+# Detecção precoce de contas laranja entre jovens, com revisão humana, contestação rápida e prevenção 
 
 ## intrigantes
 |---|---|---|---|
