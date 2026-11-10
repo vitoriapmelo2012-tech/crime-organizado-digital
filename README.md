@@ -163,10 +163,10 @@ Os cinco integrantes são de três áreas: três de Engenharia de Dados, uma de 
 **Resposta a incidentes:** plano para vazamento de dados de menores, com comunicação à ANPD e aos titulares.
 
 #### Ciência de Dados
-Modelagem: construir o modelo de risco (árvores de decisão ou gradient boosting, com foco em dados desbalanceados), treinar, calibrar e escolher o limite de alerta com base no custo do erro, em especial o do falso positivo.
-Features e consistência: criar as variáveis de comportamento da conta sobre a Feature Store, garantindo que treino e produção usem a mesma definição.
-Explicabilidade e equidade: gerar os motivos de cada alerta (SHAP) para o analista e o jovem, e medir o desempenho do modelo por grupo.
-Monitoramento: acompanhar drift de dados e de desempenho, versionar o modelo e documentá-lo em ficha técnica (model card).
+**Modelagem:** construir o modelo de risco (árvores de decisão ou gradient boosting, com foco em dados desbalanceados), treinar, calibrar e escolher o limite de alerta com base no custo do erro, em especial o do falso positivo
+**Features e consistência:** criar as variáveis de comportamento da conta sobre a Feature Store, garantindo que treino e produção usem a mesma definição.
+**Explicabilidade e equidade:** gerar os motivos de cada alerta (SHAP) para o analista e o jovem, e medir o desempenho do modelo por grupo.
+**Monitoramento:** acompanhar drift de dados e de desempenho, versionar o modelo e documentá-lo em ficha técnica (model card).
 
 #### Áreas que a solução também exige e que o grupo não cobre
 A solução de produção também depende de **Cloud** (infraestrutura, custo e região de menor impacto ambiental). O grupo desenha os pontos de contato com essas áreas (a Feature Store como entrega ao modelo, o log de auditoria para a segurança) e propõe o piloto com um banco parceiro que já tenha essas equipes.
